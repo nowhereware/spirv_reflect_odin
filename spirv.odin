@@ -366,7 +366,6 @@ ImageOperandsFlag :: enum u32 {
 	ZeroExtend            = 13,
 	Nontemporal           = 14,
 	Offsets               = 16,
-	Max                   = 0x7fffffff,
 }
 ImageOperandsFlags :: bit_set[ImageOperandsFlag;u32]
 
@@ -381,7 +380,6 @@ FPFastMathModeFlag :: enum u32 {
 	AllowReassoc           = 17,
 	AllowReassocINTEL      = 17,
 	AllowTransform         = 18,
-	Max                    = 0x7fffffff,
 }
 FPFastMathModeFlags :: bit_set[FPFastMathModeFlag;u32]
 
@@ -730,7 +728,6 @@ BuiltIn :: enum i32 {
 SelectionControlFlag :: enum u32 {
 	Flatten     = 0,
 	DontFlatten = 1,
-	Max         = 0x7fffffff,
 }
 SelectionControlFlags :: bit_set[SelectionControlFlag;u32]
 
@@ -754,7 +751,6 @@ LoopControlFlag :: enum u32 {
 	NoFusionINTEL             = 23,
 	LoopCountINTEL            = 24,
 	MaxReinvocationDelayINTEL = 25,
-	Max                       = 0x7fffffff,
 }
 LoopControlFlags :: bit_set[LoopControlFlag;u32]
 
@@ -765,7 +761,6 @@ FunctionControlFlag :: enum u32 {
 	Const        = 3,
 	OptNoneEXT   = 16,
 	OptNoneINTEL = 16,
-	Max          = 0x7fffffff,
 }
 FunctionControlFlags :: bit_set[FunctionControlFlag;u32]
 
@@ -787,7 +782,6 @@ MemorySemanticsFlag :: enum u32 {
 	MakeVisible            = 14,
 	MakeVisibleKHR         = 14,
 	Volatile               = 15,
-	Max                    = 0x7fffffff,
 }
 MemorySemanticsFlags :: bit_set[MemorySemanticsFlag;u32]
 
@@ -803,7 +797,6 @@ MemoryAccessFlag :: enum u32 {
 	NonPrivatePointerKHR    = 5,
 	AliasScopeINTELMask     = 16,
 	NoAliasINTELMask        = 17,
-	Max                     = 0x7fffffff,
 }
 MemoryAccessFlags :: bit_set[MemoryAccessFlag;u32]
 
@@ -827,19 +820,16 @@ GroupOperation :: enum i32 {
 	PartitionedReduceNV        = 6,
 	PartitionedInclusiveScanNV = 7,
 	PartitionedExclusiveScanNV = 8,
-	Max                        = 0x7fffffff,
 }
 
 KernelEnqueueFlags :: enum i32 {
 	NoWait        = 0,
 	WaitKernel    = 1,
 	WaitWorkGroup = 2,
-	Max           = 0x7fffffff,
 }
 
 KernelProfilingInfoFlag :: enum u32 {
 	CmdExecTime = 0,
-	Max         = 0x7fffffff,
 }
 KernelProfilingInfoFlags :: bit_set[KernelProfilingInfoFlag;u32]
 
@@ -1162,7 +1152,6 @@ RayFlag :: enum u32 {
 	SkipTrianglesKHR              = 8,
 	SkipAABBsKHR                  = 9,
 	ForceOpacityMicromap2StateEXT = 10,
-	Max                           = 0x7fffffff,
 }
 RayFlags :: bit_set[RayFlag;u32]
 
@@ -1190,7 +1179,6 @@ FragmentShadingRateFlag :: enum u32 {
 	Vertical4Pixels   = 1,
 	Horizontal2Pixels = 2,
 	Horizontal4Pixels = 3,
-	Max               = 0x7fffffff,
 }
 FragmentShadingRateFlags :: bit_set[FragmentShadingRateFlag;u32]
 
@@ -1238,7 +1226,6 @@ CooperativeMatrixOperandsFlag :: enum u32 {
 	MatrixCSignedComponentsKHR      = 2,
 	MatrixResultSignedComponentsKHR = 3,
 	SaturatingAccumulationKHR       = 4,
-	Max                             = 0x7fffffff,
 }
 CooperativeMatrixOperandsFlags :: bit_set[CooperativeMatrixOperandsFlag;u32]
 
@@ -1247,21 +1234,18 @@ CooperativeMatrixLayout :: enum i32 {
 	ColumnMajorKHR              = 1,
 	RowBlockedInterleavedARM    = 4202,
 	ColumnBlockedInterleavedARM = 4203,
-	Max                         = 0x7fffffff,
 }
 
 CooperativeMatrixUse :: enum i32 {
 	MatrixAKHR           = 0,
 	MatrixBKHR           = 1,
 	MatrixAccumulatorKHR = 2,
-	Max                  = 0x7fffffff,
 }
 
 CooperativeMatrixReduceFlag :: enum u32 {
 	Row    = 0,
 	Column = 1,
 	_2x2   = 2,
-	Max    = 0x7fffffff,
 }
 CooperativeMatrixReduceFlags :: bit_set[CooperativeMatrixReduceFlag;u32]
 
@@ -1271,13 +1255,11 @@ TensorClampMode :: enum i32 {
 	ClampToEdge    = 2,
 	Repeat         = 3,
 	RepeatMirrored = 4,
-	Max            = 0x7fffffff,
 }
 
 TensorAddressingOperandsFlag :: enum u32 {
-	SpvTensorAddressingOperandsTensorView = 0,
-	SpvTensorAddressingOperandsDecodeFunc = 1,
-	SpvTensorAddressingOperandsMax        = 0x7fffffff,
+	TensorView = 0,
+	DecodeFunc = 1,
 }
 TensorAddressingOperandsFlags :: bit_set[TensorAddressingOperandsFlag;u32]
 
@@ -1287,7 +1269,6 @@ TensorOperandsFlag :: enum u32 {
 	MakeElementAvailableARM = 2,
 	MakeElementVisibleARM   = 3,
 	NonPrivateElementARM    = 4,
-	Max                     = 0x7fffffff,
 }
 TensorOperandsFlags :: bit_set[TensorOperandsFlag;u32]
 
@@ -1342,14 +1323,12 @@ MatrixMultiplyAccumulateOperandsFlag :: enum u32 {
 	MatrixBPackedFloat16INTEL    = 11,
 	MatrixAPackedBFloat16INTEL   = 12,
 	MatrixBPackedBFloat16INTEL   = 13,
-	Max                          = 0x7fffffff,
 }
 MatrixMultiplyAccumulateOperandsFlags :: bit_set[MatrixMultiplyAccumulateOperandsFlag;u32]
 
 RawAccessChainOperandsFlag :: enum u32 {
 	RobustnessPerComponentNV = 0,
 	RobustnessPerElementNV   = 1,
-	Max                      = 0x7fffffff,
 }
 RawAccessChainOperandsFlags :: bit_set[RawAccessChainOperandsFlag;u32]
 

@@ -198,9 +198,9 @@ ShaderStageFlag :: enum u32 {
 	FRAGMENT_BIT                = 5, // = VK_SHADER_STAGE_FRAGMENT_BIT
 	COMPUTE_BIT                 = 6, // = VK_SHADER_STAGE_COMPUTE_BIT
 	TASK_BIT_NV                 = 7, // = VK_SHADER_STAGE_TASK_BIT_NV
-	TASK_BIT_EXT                = ShaderStageFlag.TASK_BIT_NV, // = VK_SHADER_STAGE_CALLABLE_BIT_EXT
+	TASK_BIT_EXT                = TASK_BIT_NV, // = VK_SHADER_STAGE_CALLABLE_BIT_EXT
 	MESH_BIT_NV                 = 8, // = VK_SHADER_STAGE_MESH_BIT_NV
-	MESH_BIT_EXT                = ShaderStageFlag.MESH_BIT_NV, // = VK_SHADER_STAGE_CALLABLE_BIT_EXT
+	MESH_BIT_EXT                = MESH_BIT_NV, // = VK_SHADER_STAGE_CALLABLE_BIT_EXT
 	RAYGEN_BIT_KHR              = 9, // = VK_SHADER_STAGE_RAYGEN_BIT_KHR
 	ANY_HIT_BIT_KHR             = 10, // = VK_SHADER_STAGE_ANY_HIT_BIT_KHR
 	CLOSEST_HIT_BIT_KHR         = 11, // = VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR
@@ -226,9 +226,6 @@ Generator :: enum u32 {
 
 MAX_ARRAY_DIMS :: 32
 MAX_DESCRIPTOR_SETS :: 64
-
-BINDING_NUMBER_DONT_CHANGE :: ~0
-SET_NUMBER_DONT_CHANGE :: ~0
 
 Scalar :: struct {
 	width:      u32,
@@ -363,7 +360,7 @@ DescriptorSet :: struct {
 }
 
 ExecutionModeValue :: enum i32 {
-	SPEC_CONSTANT = 0xFFFFFFFF,
+	SPEC_CONSTANT = max(i32),
 }
 
 LocalSize :: struct {
