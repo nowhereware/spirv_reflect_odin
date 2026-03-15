@@ -1,5 +1,7 @@
 package spirv_reflect
 
+import vk "vendor:vulkan"
+
 when ODIN_OS == .Windows {
 	@(export)
 	foreign import lib "spirv-reflect-static.lib"
@@ -39,41 +41,39 @@ ModuleFlag :: enum u32 {
 ModuleFlags :: bit_set[ModuleFlag;u32]
 
 TypeFlag :: enum u32 {
-	UNDEFINED                       = 0,
-	VOID                            = 1,
-	BOOL                            = 2,
-	INT                             = 3,
-	FLOAT                           = 4,
-	VECTOR                          = 9,
-	MATRIX                          = 10,
-	EXTERNAL_IMAGE                  = 17,
-	EXTERNAL_SAMPLER                = 18,
-	EXTERNAL_SAMPLED_IMAGE          = 19,
-	EXTERNAL_BLOCK                  = 20,
-	EXTERNAL_ACCELERATION_STRUCTURE = 21,
-	STRUCT                          = 29,
-	ARRAY                           = 30,
-	REF                             = 31,
+	VOID                            = 0,
+	BOOL                            = 1,
+	INT                             = 2,
+	FLOAT                           = 3,
+	VECTOR                          = 8,
+	MATRIX                          = 9,
+	EXTERNAL_IMAGE                  = 16,
+	EXTERNAL_SAMPLER                = 17,
+	EXTERNAL_SAMPLED_IMAGE          = 18,
+	EXTERNAL_BLOCK                  = 19,
+	EXTERNAL_ACCELERATION_STRUCTURE = 20,
+	STRUCT                          = 28,
+	ARRAY                           = 29,
+	REF                             = 30,
 }
 TypeFlags :: bit_set[TypeFlag;u32]
 
 DecorationFlag :: enum u32 {
-	NONE                = 0,
-	BLOCK               = 1,
-	BUFFER_BLOCK        = 2,
-	ROW_MAJOR           = 3,
-	COLUMN_MAJOR        = 4,
-	BUILT_IN            = 5,
-	NOPERSPECTIVE       = 6,
-	FLAT                = 7,
-	NON_WRITABLE        = 8,
-	RELAXED_PRECISION   = 9,
-	NON_READABLE        = 10,
-	PATCH               = 11,
-	PER_VERTEX          = 12,
-	PER_TASK            = 13,
-	WEIGHT_TEXTURE      = 14,
-	BLOCK_MATCH_TEXTURE = 15,
+	BLOCK               = 0,
+	BUFFER_BLOCK        = 1,
+	ROW_MAJOR           = 2,
+	COLUMN_MAJOR        = 3,
+	BUILT_IN            = 4,
+	NOPERSPECTIVE       = 5,
+	FLAT                = 6,
+	NON_WRITABLE        = 7,
+	RELAXED_PRECISION   = 8,
+	NON_READABLE        = 9,
+	PATCH               = 10,
+	PER_VERTEX          = 11,
+	PER_TASK            = 12,
+	WEIGHT_TEXTURE      = 13,
+	BLOCK_MATCH_TEXTURE = 14,
 }
 DecorationFlags :: bit_set[DecorationFlag;u32]
 
@@ -128,89 +128,19 @@ ResourceType :: enum i32 {
 	UAV       = 0x00000008,
 }
 
-Format :: enum i32 {
-	UNDEFINED           = 0, // = VK_FORMAT_UNDEFINED
-	R16_UINT            = 74, // = VK_FORMAT_R16_UINT
-	R16_SINT            = 75, // = VK_FORMAT_R16_SINT
-	R16_SFLOAT          = 76, // = VK_FORMAT_R16_SFLOAT
-	R16G16_UINT         = 81, // = VK_FORMAT_R16G16_UINT
-	R16G16_SINT         = 82, // = VK_FORMAT_R16G16_SINT
-	R16G16_SFLOAT       = 83, // = VK_FORMAT_R16G16_SFLOAT
-	R16G16B16_UINT      = 88, // = VK_FORMAT_R16G16B16_UINT
-	R16G16B16_SINT      = 89, // = VK_FORMAT_R16G16B16_SINT
-	R16G16B16_SFLOAT    = 90, // = VK_FORMAT_R16G16B16_SFLOAT
-	R16G16B16A16_UINT   = 95, // = VK_FORMAT_R16G16B16A16_UINT
-	R16G16B16A16_SINT   = 96, // = VK_FORMAT_R16G16B16A16_SINT
-	R16G16B16A16_SFLOAT = 97, // = VK_FORMAT_R16G16B16A16_SFLOAT
-	R32_UINT            = 98, // = VK_FORMAT_R32_UINT
-	R32_SINT            = 99, // = VK_FORMAT_R32_SINT
-	R32_SFLOAT          = 100, // = VK_FORMAT_R32_SFLOAT
-	R32G32_UINT         = 101, // = VK_FORMAT_R32G32_UINT
-	R32G32_SINT         = 102, // = VK_FORMAT_R32G32_SINT
-	R32G32_SFLOAT       = 103, // = VK_FORMAT_R32G32_SFLOAT
-	R32G32B32_UINT      = 104, // = VK_FORMAT_R32G32B32_UINT
-	R32G32B32_SINT      = 105, // = VK_FORMAT_R32G32B32_SINT
-	R32G32B32_SFLOAT    = 106, // = VK_FORMAT_R32G32B32_SFLOAT
-	R32G32B32A32_UINT   = 107, // = VK_FORMAT_R32G32B32A32_UINT
-	R32G32B32A32_SINT   = 108, // = VK_FORMAT_R32G32B32A32_SINT
-	R32G32B32A32_SFLOAT = 109, // = VK_FORMAT_R32G32B32A32_SFLOAT
-	R64_UINT            = 110, // = VK_FORMAT_R64_UINT
-	R64_SINT            = 111, // = VK_FORMAT_R64_SINT
-	R64_SFLOAT          = 112, // = VK_FORMAT_R64_SFLOAT
-	R64G64_UINT         = 113, // = VK_FORMAT_R64G64_UINT
-	R64G64_SINT         = 114, // = VK_FORMAT_R64G64_SINT
-	R64G64_SFLOAT       = 115, // = VK_FORMAT_R64G64_SFLOAT
-	R64G64B64_UINT      = 116, // = VK_FORMAT_R64G64B64_UINT
-	R64G64B64_SINT      = 117, // = VK_FORMAT_R64G64B64_SINT
-	R64G64B64_SFLOAT    = 118, // = VK_FORMAT_R64G64B64_SFLOAT
-	R64G64B64A64_UINT   = 119, // = VK_FORMAT_R64G64B64A64_UINT
-	R64G64B64A64_SINT   = 120, // = VK_FORMAT_R64G64B64A64_SINT
-	R64G64B64A64_SFLOAT = 121, // = VK_FORMAT_R64G64B64A64_SFLOAT
-}
+Format :: vk.Format
 
 VariableFlag :: enum u32 {
-	NONE                  = 0,
-	UNUSED                = 1,
-	PHYSICAL_POINTER_COPY = 2,
+	UNUSED                = 0,
+	PHYSICAL_POINTER_COPY = 1,
 }
 VariableFlags :: bit_set[VariableFlag;u32]
 
-DescriptorType :: enum i32 {
-	SAMPLER                    = 0, // = VK_DESCRIPTOR_TYPE_SAMPLER
-	COMBINED_IMAGE_SAMPLER     = 1, // = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER
-	SAMPLED_IMAGE              = 2, // = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE
-	STORAGE_IMAGE              = 3, // = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE
-	UNIFORM_TEXEL_BUFFER       = 4, // = VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER
-	STORAGE_TEXEL_BUFFER       = 5, // = VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER
-	UNIFORM_BUFFER             = 6, // = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER
-	STORAGE_BUFFER             = 7, // = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER
-	UNIFORM_BUFFER_DYNAMIC     = 8, // = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC
-	STORAGE_BUFFER_DYNAMIC     = 9, // = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC
-	INPUT_ATTACHMENT           = 10, // = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT
-	ACCELERATION_STRUCTURE_KHR = 1000150000, // = VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR
-}
+DescriptorType :: vk.DescriptorType
 
-ShaderStageFlag :: enum u32 {
-	VERTEX_BIT                  = 1, // = VK_SHADER_STAGE_VERTEX_BIT
-	TESSELLATION_CONTROL_BIT    = 2, // = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT
-	TESSELLATION_EVALUATION_BIT = 3, // = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT
-	GEOMETRY_BIT                = 4, // = VK_SHADER_STAGE_GEOMETRY_BIT
-	FRAGMENT_BIT                = 5, // = VK_SHADER_STAGE_FRAGMENT_BIT
-	COMPUTE_BIT                 = 6, // = VK_SHADER_STAGE_COMPUTE_BIT
-	TASK_BIT_NV                 = 7, // = VK_SHADER_STAGE_TASK_BIT_NV
-	TASK_BIT_EXT                = TASK_BIT_NV, // = VK_SHADER_STAGE_CALLABLE_BIT_EXT
-	MESH_BIT_NV                 = 8, // = VK_SHADER_STAGE_MESH_BIT_NV
-	MESH_BIT_EXT                = MESH_BIT_NV, // = VK_SHADER_STAGE_CALLABLE_BIT_EXT
-	RAYGEN_BIT_KHR              = 9, // = VK_SHADER_STAGE_RAYGEN_BIT_KHR
-	ANY_HIT_BIT_KHR             = 10, // = VK_SHADER_STAGE_ANY_HIT_BIT_KHR
-	CLOSEST_HIT_BIT_KHR         = 11, // = VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR
-	MISS_BIT_KHR                = 12, // = VK_SHADER_STAGE_MISS_BIT_KHR
-	INTERSECTION_BIT_KHR        = 13, // = VK_SHADER_STAGE_INTERSECTION_BIT_KHR
-	CALLABLE_BIT_KHR            = 14, // = VK_SHADER_STAGE_CALLABLE_BIT_KHR
-}
-ShaderStageFlags :: bit_set[ShaderStageFlag;u32]
+ShaderStageFlags :: vk.ShaderStageFlags
 
-Generator :: enum u32 {
+Generator :: enum i32 {
 	KHRONOS_LLVM_SPIRV_TRANSLATOR         = 6,
 	KHRONOS_SPIRV_TOOLS_ASSEMBLER         = 7,
 	KHRONOS_GLSLANG_REFERENCE_FRONT_END   = 8,
