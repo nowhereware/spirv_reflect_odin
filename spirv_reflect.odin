@@ -7,7 +7,7 @@ when ODIN_OS == .Windows {
 	foreign import lib "spirv-reflect-static.lib"
 } else {
 	@(export)
-	foreign import lib "spirv-reflect-static.a"
+	foreign import lib "libspirv-reflect-static.a"
 }
 
 Result :: enum i32 {
